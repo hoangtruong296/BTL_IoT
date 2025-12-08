@@ -1,36 +1,35 @@
 import emailjs from "@emailjs/browser";
 
-emailjs.init("TA84U9_j3h22RpNcM");  // chỉ truyền chuỗi, không phải object
+emailjs.init("jWsyQ3HWZ8VwrjMxg");  // Chỉ ID chuỗi
 
 export async function sendAlertEmail(message) {
-  const email = localStorage.getItem("alertEmail");
-  if (!email) return console.warn("Chưa thiết lập email.");
+  let emails = JSON.parse(localStorage.getItem("alertEmails") || "[]");
 
+  if (!emails.length) {
+    console.warn("Không có email cảnh báo nào.");
+    return;
+  }
 
-  // const validFormat = /\S+@\S+\.\S+/.test(email);
-  // if (!validFormat) {
-  //   console.warn("Email không hợp lệ:", email);
-  //   return;
-  // }
+  for (const email of emails) {
+    const valid = /\S+@\S+\.\S+/.test(email);
+    if (!valid) continue;
 
-  try {
-    const result = await emailjs.send(
-      "service_t0dcwpl",   // service phải đúng
-      "template_jpo7enq",  // template phải đúng
-      {
-        name: "Cảnh báo nước",
-        title: "Cảnh báo chất lượng nước",
-        time: new Date().toLocaleString(),
-        message,
-        to_email: email    // phải trùng biến trong template
-      }
-    );
+    try {
+      await emailjs.send(
+        "service_jbtje2v",
+        "template_iuesurd",
+        {
+          name: "Cảnh báo nước",
+          title: "Cảnh báo chất lượng nước",
+          time: new Date().toLocaleString(),
+          message,
+          to_email: email
+        }
+      );
 
-    console.log("Email cảnh báo đã được gửi!", result);
-    return result;
-
-  } catch (err) {
-    console.error("Lỗi gửi Email:", err);
-    return null;
+      console.log("Đã gửi email cảnh báo đến:", email);
+    } catch (err) {
+      console.error("Lỗi gửi Email đến:", email, err);
+    }
   }
 }

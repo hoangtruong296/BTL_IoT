@@ -1,7 +1,7 @@
 import React, { useEffect, useState, useRef } from "react";
 import { Container, Typography, Grid } from "@mui/material";
 import { fetchTelemetry } from "./services/thingsboard";
-import { sendAlertEmail } from "./services/emailService";
+import { sendAlertEmail }  from "./services/emailService";
 import { sendTelegramAlert } from "./services/telegramService"; //
 import { evaluateWater } from "./utils/evaluateWater";
 import LineChartCard from "./components/Charts/LineChartCard";
@@ -24,18 +24,27 @@ function App() {
       const result = evaluateWater(newest);
 
       // Khi trạng thái xấu → gửi cảnh báo Email + Telegram
-      if (result.status === "bad" ) {
-        // Gửi email cảnh báo
-        sendAlertEmail(result.message);
+      if (result.status === "bad") {
+        
+        const msgTelegram = 
+          `🚨 *CẢNH BÁO CHẤT LƯỢNG NƯỚC*\n${result.message}\n\n` +
+          `pH: ${newest.ph?.toFixed(2)}\n` +
+          `Nhiệt độ: ${newest.temperature?.toFixed(1)}°C\n` +
+          `TDS: ${newest.tds?.toFixed(0)} ppm\n` +
+          `Thời gian: ${new Date().toLocaleString()}`;
 
-        // Gửi telegram cảnh báo
-        const msg = `🚨 *CẢNH BÁO CHẤT LƯỢNG NƯỚC*\n${result.message}\n\n` +
-                    `pH: ${newest.ph?.toFixed(2)}\n` +
-                    `Nhiệt độ: ${newest.temperature?.toFixed(1)}°C\n` +
-                    `TDS: ${newest.tds?.toFixed(0)} ppm\n` +
-                    `Thời gian: ${new Date().toLocaleString()}`;
-        sendTelegramAlert(msg);
+        const msgEmail =
+          `🚨 CẢNH BÁO CHẤT LƯỢNG NƯỚC\n${result.message}\n\n` +
+          `Thông số đo được:\n` +
+          `- pH: ${newest.ph?.toFixed(2)}\n` +
+          `- Nhiệt độ: ${newest.temperature?.toFixed(1)}°C\n` +
+          `- TDS: ${newest.tds?.toFixed(0)} ppm\n` +
+          `- Thời gian: ${new Date().toLocaleString()}`;
+
+        sendTelegramAlert(msgTelegram);
+        sendAlertEmail(msgEmail);
       }
+
 
       lastStatus.current = result.status;
     };
