@@ -1,6 +1,6 @@
 const TB_URL = "https://thingsboard.cloud/api/plugins/telemetry/DEVICE";
-const DEVICE_ID = "81c7a1f0-d34a-11f0-82a9-69e5355364db"; // Thay bằng ID của bạn
-const TOKEN = "eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJiaTEyYml5QGdtYWlsLmNvbSIsInVzZXJJZCI6IjU5NTNjYzMwLWQzNGEtMTFmMC04ZDI3LTlmODdjMzUxZWRkOCIsInNjb3BlcyI6WyJURU5BTlRfQURNSU4iXSwic2Vzc2lvbklkIjoiNTRkZjJkNGYtNzk5OC00NTE5LTliMGEtOTRlMjJlMTNhNjNiIiwiZXhwIjoxNzY1MTk0MTk3LCJpc3MiOiJ0aGluZ3Nib2FyZC5jbG91ZCIsImlhdCI6MTc2NTE2NTM5NywiZmlyc3ROYW1lIjoiUGjhuqFtIFbEg24gS2jhuqNpIiwiZW5hYmxlZCI6dHJ1ZSwiaXNQdWJsaWMiOmZhbHNlLCJpc0JpbGxpbmdTZXJ2aWNlIjpmYWxzZSwicHJpdmFjeVBvbGljeUFjY2VwdGVkIjp0cnVlLCJ0ZXJtc09mVXNlQWNjZXB0ZWQiOnRydWUsInRlbmFudElkIjoiNTkyYzZlMTAtZDM0YS0xMWYwLThkMjctOWY4N2MzNTFlZGQ4IiwiY3VzdG9tZXJJZCI6IjEzODE0MDAwLTFkZDItMTFiMi04MDgwLTgwODA4MDgwODA4MCJ9.dr0LZw87L2WLcGLIj9fMRM7y0Z31K-fbBU4XUqYa7McdihzZ31pprte1_kmh9WkAQ6bQ_wcFu35G3o60ft7DVg"; // JWT token từ ThingsBoard (user account)
+const DEVICE_ID = "375560c0-b7f8-11f0-87ea-b9809c1a7a9e"; // Thay bằng ID của bạn
+const TOKEN = "eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJuZ3V5ZW1uaW5oMms0QGdtYWlsLmNvbSIsInVzZXJJZCI6IjQzNmYwNjAwLWI3ZjctMTFmMC04N2VhLWI5ODA5YzFhN2E5ZSIsInNjb3BlcyI6WyJURU5BTlRfQURNSU4iXSwic2Vzc2lvbklkIjoiNjFkYjlhNzAtZmVjYi00ZjQyLWFmZWEtY2M3ODQxNzZlMmNmIiwiZXhwIjoxNzY1Mjc3MzU5LCJpc3MiOiJ0aGluZ3Nib2FyZC5jbG91ZCIsImlhdCI6MTc2NTI0ODU1OSwiZmlyc3ROYW1lIjoiQjIyRENBVDE5MF9OZ3V54buFbiBI4buTbmcgTWluaCIsImVuYWJsZWQiOnRydWUsImlzUHVibGljIjpmYWxzZSwiaXNCaWxsaW5nU2VydmljZSI6ZmFsc2UsInByaXZhY3lQb2xpY3lBY2NlcHRlZCI6dHJ1ZSwidGVybXNPZlVzZUFjY2VwdGVkIjp0cnVlLCJ0ZW5hbnRJZCI6IjQzM2RiY2QwLWI3ZjctMTFmMC04N2VhLWI5ODA5YzFhN2E5ZSIsImN1c3RvbWVySWQiOiIxMzgxNDAwMC0xZGQyLTExYjItODA4MC04MDgwODA4MDgwODAifQ.MWZXx80DqSW0CxS-AK8YqCmQBibXFEmgbifCypY8InDiLEary-OjexbP8sQJm6tRJRaaVnJycBX8shaAGECmMg";
 
 export async function fetchTelemetry() {
   const now = Date.now();
@@ -21,30 +21,5 @@ export async function fetchTelemetry() {
     tds: parseFloat(json.tds?.[i]?.value || 0),
   }));
 }
-// services/thingsboard.jsx
 
-// function random(min, max) {
-//   return (Math.random() * (max - min) + min).toFixed(2);
-// }
-
-// export async function fetchTelemetry() {
-//   const now = Date.now();
-//   const interval = 10000; // 5 giây mỗi điểm
-//   const count = 30;      // tổng 30 điểm = 150 giây (2.5 phút)
-
-//   const data = [];
-
-//   for (let i = 0; i < count; i++) {
-//     const ts = now - (count - i) * interval;
-
-//     data.push({
-//       time: new Date(ts).toLocaleTimeString(),
-//       ph: parseFloat(random(6.0, 9.0)),
-//       temperature: parseFloat(random(20, 35)),
-//       tds: parseFloat(random(250, 650)),
-//     });
-//   }
-
-//   return data; // trả về array
-// }
 

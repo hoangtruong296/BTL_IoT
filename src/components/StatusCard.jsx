@@ -3,7 +3,6 @@ import { Card, CardContent, Typography, Box } from "@mui/material";
 
 export default function StatusCard({ data }) {
   const latest = data.at(-1);
-  // lấy phần tử cuối cùng của mảng
   if (!latest) return null;
 
   const ph = latest.ph ?? 0;
@@ -11,20 +10,25 @@ export default function StatusCard({ data }) {
   const temp = latest.temperature ?? 0;
 
   let status = "ĐẠT";
-  let message = "";
   let color = "green";
+  let messages = [];
 
+  // --- Kiểm tra nhiều điều kiện ---
   if (ph < 6.5 || ph > 8.5) {
+    messages.push("pH không đạt (6.5 – 8.5)");
+  }
+
+  if (tds > 500 ) {
+    messages.push("TDS cao (>500 ppm)");
+  }
+
+  if (temp < 10 || temp > 27) {
+    messages.push("Nhiệt độ bất thường");
+  }
+
+  // Nếu có lỗi thì đổi trạng thái
+  if (messages.length > 0) {
     status = "Không đạt";
-    message = "pH không đạt (6.5 – 8.5)";
-    color = "red";
-  } else if (tds > 500) {
-    status = "Không đạt";
-    message = "TDS cao (>500 ppm)";
-    color = "red";
-  } else if (temp < 10 || temp > 35) {
-    status = "Không đạt";
-    message = "Nhiệt độ bất thường (10 – 35°C)";
     color = "red";
   }
 
@@ -43,9 +47,14 @@ export default function StatusCard({ data }) {
           <Typography variant="subtitle1" sx={{ color, fontWeight: "bold" }}>
             Đánh giá: {status}
           </Typography>
-          {message && (
-            <Typography variant="body2" sx={{ mt: 1 }}>
-              {message}
+
+          {messages.length > 0 && (
+            <Typography
+              variant="body2"
+              sx={{ mt: 1, whiteSpace: "pre-line" }}
+            >
+              {messages.join("\n")} 
+              {/* xuống dòng cho dễ đọc */}
             </Typography>
           )}
         </Box>

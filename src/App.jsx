@@ -19,7 +19,6 @@ function App() {
       if (!newData.length) return;
 
       setData(newData);
-
       const newest = newData[newData.length - 1];
       const result = evaluateWater(newest);
 
@@ -50,7 +49,7 @@ function App() {
     };
 
     fetchData();
-    const interval = setInterval(fetchData, 1000);
+    const interval = setInterval(fetchData, 3000);
     return () => clearInterval(interval);
   }, []);
 
